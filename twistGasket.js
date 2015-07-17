@@ -4,6 +4,8 @@ var gl;
 var points = [];
 var canvas;
 var NumTimesToSubdivide =0;
+var angle = 0;
+var thetaLoc;
 
 window.onload = function init()
 {
@@ -13,9 +15,12 @@ window.onload = function init()
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     
-    var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
+    //var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
 
-    divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
+    //divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
+    computeTesellation();
+    computeRotation();
+
 
     //  Configure WebGL
 
@@ -38,6 +43,7 @@ window.onload = function init()
     var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
+
 
     render();
 };
@@ -87,16 +93,46 @@ function update(){
 	toDefaultValues();
 
 	//compute transformations
-	window.onload();
-
+	window.onload(); //teselation
+	//computeRotation();
+	//computeTesellation();
+    //computeRotation();
 
 	//finally render
-	render();
+	//render();
 }
 
 function toDefaultValues(){
 
 	points = [];
 	NumTimesToSubdivide = parseInt(document.getElementById('subdivision-levels').value);
+	angle = parseFloat(document.getElementById('degree-slider').value);
 }
 
+function computeRotation(){
+
+	var x,y = 0;
+	var sin, cos;
+	var rad = degreesToRadians(angle);
+
+	for (var i = 0; i < points.length; i++){
+		x = points[i][0];
+		y = points[i][1];
+
+		d = rad*Math.sqrt(x*x+y*y);
+		sin = Math.sin(d);
+		cos = Math.cos(d);
+		
+
+		points[i][0] = -sin*y + cos * x;
+		points[i][1] = sin*x + cos*y;
+
+	}
+}
+
+function computeTesellation(){
+
+	var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
+    divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
+
+}

@@ -6,7 +6,7 @@ function changedRotation(degrees){
 }
 
 function degreesToRadians(degrees){
-	return degrees * 57.29565;
+	return (degrees * (Math.PI/180));
 }
 
 function changedDivisionLevel(nLevel){
