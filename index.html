@@ -36,15 +36,21 @@ main()
 	<tr>
 		<th> Rotate in degrees </th>
 		<th> Number of subdivision levels </th>
+		<th> Miliseconds it takes to render </th>
 	</tr>
 	<tr>
 		<td>
-			<input id="degree-slider" type="range" min="0" max="360" step="1" onchange="update();" value="0"/>
-			<input type="text"  value="0" id="rotation" readOnly="readOnly" />
+			<input id="degree-slider" type="range" min="0"  step="1" onchange="update();" value="0"/>
+			<input type="text"  value="0" id="rotation" onchange="update();" />
 		</td>
 		<td>
-			<input id="subdivision-levels" type="range" min="0" max="5" step="1" onchange="update();" value="0"/>
-			<input type="text"  value="0" id="levels" readOnly="readOnly" />
+			High values can cause program to break.<br/>
+			<input id="subdivision-levels" type="range" min="0"  step="1" onchange="update();" value="0"/>
+			<input type="text"  value="0" id="levels" onchange="document.getElementById('subdivision-levels').value = this.value;update();" />
+		</td>
+		
+		<td>
+			<input type="text" id="time"readOnly="readOnly">
 		</td>
 	</tr>
 	</table>

@@ -5,7 +5,7 @@ var points = [];
 var canvas;
 var NumTimesToSubdivide =0;
 var angle = 0;
-var thetaLoc;
+
 
 window.onload = function init()
 {
@@ -15,9 +15,6 @@ window.onload = function init()
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     
-    //var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
-
-    //divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
     computeTesellation();
     computeRotation();
 
@@ -44,8 +41,11 @@ window.onload = function init()
     gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-
+    var start = new Date().getTime();
     render();
+    var end = new Date().getTime();
+	var time = end - start;
+	document.getElementById('time').value  = time;
 };
 
 function triangle( a, b, c )
@@ -79,6 +79,8 @@ function divideTriangle( a, b, c, count )
     }
 }
 
+
+
 function render() {
     gl.clear( gl.COLOR_BUFFER_BIT );
     gl.drawArrays( gl.TRIANGLES, 0, points.length );
@@ -92,14 +94,14 @@ function update(){
 	//variables get the values they have before the first rendering.
 	toDefaultValues();
 
-	//compute transformations
-	window.onload(); //teselation
-	//computeRotation();
-	//computeTesellation();
-    //computeRotation();
+	
+	//compute transformations and render
+	var start = new Date().getTime();
+	window.onload(); 
+	 var end = new Date().getTime();
+	var time = end - start;
+	document.getElementById('time').value  = time;
 
-	//finally render
-	//render();
 }
 
 function toDefaultValues(){
@@ -132,7 +134,6 @@ function computeRotation(){
 
 function computeTesellation(){
 
-	var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
-    divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
-
+	var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];	
+		divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
 }
