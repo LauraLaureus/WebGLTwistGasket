@@ -25,11 +25,29 @@ main()
 <script type="text/javascript" src="initShaders.js"></script>
 <script type="text/javascript" src="flatten.js"></script>
 <script type="text/javascript" src="twistGasket.js"></script>
+<script type="text/javascript" src="htmlEditor.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-<canvas id="gl-canvas" width="512" height="512">
+<aside id="toolbox">
+	<table>
+	<tr>
+		<th> Rotate in degrees </th>
+	</tr>
+	<tr>
+		<td>
+			<input id="degree-slider" type="range" min="0" max="360" step="1" onchange="changedRotation(this.value)"/>
+			<input type="text"  value="180" id="rotation" />
+		</td>
+	</tr>
+	</table>
+</aside>
+<section>
+<canvas id="gl-canvas" >
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
+</section>
+
 </body>
 </html>
