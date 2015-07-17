@@ -97,6 +97,6 @@ function update(){
 function toDefaultValues(){
 
 	points = [];
-	NumTimesToSubdivide = document.getElementById('subdivision-levels').value;
+	NumTimesToSubdivide = parseInt(document.getElementById('subdivision-levels').value);
 }
 
