@@ -24,6 +24,7 @@ main()
 <script type="text/javascript" src="webgl-utils.js"></script>
 <script type="text/javascript" src="initShaders.js"></script>
 <script type="text/javascript" src="flatten.js"></script>
+<script type="text/javascript" src="MV.js"></script>
 <script type="text/javascript" src="twistGasket.js"></script>
 <script type="text/javascript" src="htmlEditor.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
@@ -34,11 +35,16 @@ main()
 	<table>
 	<tr>
 		<th> Rotate in degrees </th>
+		<th> Number of subdivision levels </th>
 	</tr>
 	<tr>
 		<td>
-			<input id="degree-slider" type="range" min="0" max="360" step="1" onchange="changedRotation(this.value)"/>
-			<input type="text"  value="180" id="rotation" />
+			<input id="degree-slider" type="range" min="0" max="360" step="1" onchange="update();" value="0"/>
+			<input type="text"  value="0" id="rotation" />
+		</td>
+		<td>
+			<input id="subdivision-levels" type="range" min="0" max="4" step="1" onchange="update();" value="0"/>
+			<input type="text"  value="0" id="levels" />
 		</td>
 	</tr>
 	</table>

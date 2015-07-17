@@ -1,16 +1,21 @@
+"user strict";
 
 var gl;
-var points;
+var points = [];
+var canvas;
+var NumTimesToSubdivide =0;
 
 window.onload = function init()
 {
-    var canvas = document.getElementById( "gl-canvas" );
+    canvas = document.getElementById( "gl-canvas" );
     
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     
-    var vertices = [-1, -1, 0, 1, 1, -1];
+    var vertices = [vec2(-1, -1),vec2(0, 1),vec2( 1, -1)];
+
+    divideTriangle (vertices[0],vertices[1],vertices[2],NumTimesToSubdivide);
 
     //  Configure WebGL
 
@@ -26,7 +31,7 @@ window.onload = function init()
     
     var bufferId = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
 
     // Associate out shader variables with our data buffer
     
@@ -37,8 +42,61 @@ window.onload = function init()
     render();
 };
 
+function triangle( a, b, c )
+{
+    points.push( a, b, c );
+}
+
+function divideTriangle( a, b, c, count )
+{
+
+    // check for end of recursion
+
+    if ( count === 0 ) {
+        triangle( a, b, c );
+    }
+    else {
+
+        //bisect the sides
+
+        var ab = mix( a, b, 0.5 );
+        var ac = mix( a, c, 0.5 );
+        var bc = mix( b, c, 0.5 );
+
+        --count;
+
+        // three new triangles
+
+        divideTriangle( a, ab, ac, count );
+        divideTriangle( c, ac, bc, count );
+        divideTriangle( b, bc, ab, count );
+    }
+}
 
 function render() {
     gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.TRIANGLES, 0, 3 );
+    gl.drawArrays( gl.TRIANGLES, 0, points.length );
 }
+
+function update(){
+
+	//UpdateUI
+	updateAll();
+
+	//variables get the values they have before the first rendering.
+	toDefaultValues();
+
+	//compute transformations
+	window.onload();
+
+
+	//finally render
+	render();
+}
+
+function toDefaultValues(){
+
+	points = [];
+	NumTimesToSubdivide = document.getElementById('subdivision-levels').value;
+}
+
